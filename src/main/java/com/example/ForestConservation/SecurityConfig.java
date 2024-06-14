@@ -18,7 +18,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())  // Disable CSRF for simplicity
                 .authorizeRequests(authorizeRequests ->
                         authorizeRequests
-                                .requestMatchers("/Forest/user/register", "/Forest/user/login","/Forest/report/**","Forest/community/**").permitAll()
+                                .requestMatchers("/Forest/user/register", "/Forest/user/login","/Forest/report/**","/Forest/community/**").permitAll()
                                 .anyRequest().authenticated()
                 );
         return http.build();

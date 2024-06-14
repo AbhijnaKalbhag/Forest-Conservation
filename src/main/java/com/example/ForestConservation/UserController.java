@@ -14,11 +14,12 @@ import java.util.Map;
 public class UserController {
 
     @Autowired
-    private com.example.ForestConservation.UserService userService;
+    private UserService userService;
 
     @PostMapping("/user/register")
     public ResponseEntity<User> createUser(@RequestBody Map<String, String> payload) {
-        User user = userService.createuser(
+        // Extract user information from the payload and create a new user
+        User user = userService.createUser(
                 payload.get("name"),
                 payload.get("age"),
                 payload.get("gender"),
@@ -28,18 +29,23 @@ public class UserController {
                 payload.get("district"),
                 payload.get("password")
         );
-        return ResponseEntity.ok(user);
+        return ResponseEntity.ok(user); // Return success response with created user object
     }
 
     @PostMapping("/user/login")
     public ResponseEntity<User> loginUser(@RequestBody Map<String, String> loginRequest) {
+        // Extract email and password from login request payload
         String email = loginRequest.get("email");
         String password = loginRequest.get("password");
+
+        // Call userService to authenticate user
         User user = userService.loginUser(email, password);
+
+        // Check if user authentication was successful
         if (user != null) {
-            return ResponseEntity.ok(user);
+            return ResponseEntity.ok(user); // Return user object if login successful
         } else {
-            return ResponseEntity.status(401).build();
+            return ResponseEntity.status(401).build(); // Return 401 Unauthorized if login failed
         }
     }
 }
